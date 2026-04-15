@@ -27,6 +27,10 @@ buildNpmPackage rec {
   ]
   ++ lib.optional stdenv.hostPlatform.isDarwin cctools;
 
+  build-system = with python3.pkgs; [
+    setuptools
+  ];
+
   # Fixes `semantic-release --version` output
   postPatch = ''
     substituteInPlace package.json --replace \
@@ -40,7 +44,5 @@ buildNpmPackage rec {
     homepage = "https://semantic-release.gitbook.io/semantic-release/";
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.sestrella ];
-    # https://hydra.nixos.org/job/nixpkgs/trunk/semantic-release.aarch64-linux
-    badPlatforms = [ "aarch64-linux" ];
   };
 }
